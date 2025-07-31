@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="max-w-4xl mx-auto p-6 text-white">
+  <h1 class="text-3xl font-bold mb-4">Results - {{ contest.name }}</h1>
+
+  <h2 class="text-xl font-semibold mt-6 mb-2">Leaderboard</h2>
+  {% if leaderboard %}
+    <ul class="bg-gray-800 rounded p-4">
+      {% for user, score in leaderboard %}
+        <li class="py-2 border-b border-gray-700">
+          {{ forloop.counter }}. {{ user.username }} - {{ score }} points
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p class="text-gray-400">No submissions yet.</p>
+  {% endif %}
+
+  <h2 class="text-xl font-semibold mt-6 mb-2">Submissions</h2>
+  <ul>
+    {% for submission in submissions %}
+      <li class="border-b border-gray-600 py-2">
+        {{ submission.user.username }} | {{ submission.problem.title }} |
+        Score: {{ submission.score }} | Language: {{ submission.language }}
+      </li>
+    {% endfor %}
+  </ul>
+</div>
+{% endblock %}

@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="flex justify-between items-center mb-6">
+  <h2 class="text-2xl font-bold text-white">Problems</h2>
+  <form method="get" class="mb-4 flex flex-col md:flex-row gap-2 items-center">
+    <input
+      type="text"
+      name="q"
+      value="{{ query }}"
+      placeholder="Search problems..."
+      class="px-4 py-2 rounded border border-gray-300 w-full md:w-1/2 bg-gray-900 text-white placeholder-gray-400"
+    />
+
+    <select name="difficulty" class="px-4 py-2 rounded bg-gray-900 text-white border border-gray-300">
+      <option value="">All</option>
+      <option value="Easy" {% if selected == 'Easy' %}selected{% endif %}>Easy</option>
+      <option value="Medium" {% if selected == 'Medium' %}selected{% endif %}>Medium</option>
+      <option value="Hard" {% if selected == 'Hard' %}selected{% endif %}>Hard</option>
+    </select>
+
+    <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700">
+      Search
+    </button>
+  </form>
+</div>
+
+<!-- Company Filter Dropdown -->
+<form method="get">
+  <select name="company" onchange="this.form.submit()" class="mb-4 px-4 py-2 rounded bg-gray-900 text-white border border-gray-300">
+    <option value="">All Companies</option>
+    <option value="Amazon">Amazon</option>
+    <option value="Google">Google</option>
+    <!-- Add more -->
+  </select>
+</form>
+
+{% if user.is_authenticated and user.is_staff %}
+  <a href="{% url 'add_problem' %}" class="text-sm bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
+    + Add Problem
+  </a>
+{% endif %}
+
+<ul class="grid grid-cols-1 gap-4">
+  {% for problem in problems %}
+    <li class="p-4 rounded bg-gray-800 text-white shadow hover:bg-gray-700 transition">
+      <h3 class="text-lg font-semibold">{{ problem.title }}</h3>
+      <p class="text-sm text-gray-400">{{ problem.description|truncatewords:20 }}</p>
+
+      {% if problem.difficulty == 'Easy' %}
+        <span class="text-sm px-2 py-1 rounded-full bg-green-600 text-white">Easy</span>
+      {% elif problem.difficulty == 'Medium' %}
+        <span class="text-sm px-2 py-1 rounded-full bg-yellow-500 text-black">Medium</span>
+      {% elif problem.difficulty == 'Hard' %}
+        <span class="text-sm px-2 py-1 rounded-full bg-red-600 text-white">Hard</span>
+      {% else %}
+        <span class="text-sm px-2 py-1 rounded-full bg-gray-500 text-white">{{ problem.difficulty }}</span>
+      {% endif %}
+
+      {% if problem.contest and problem.contest.start_time > now %}
+        <button onclick="alert('⏳ The contest for this problem hasn\'t started yet.')" class="block mt-2 bg-gray-500 text-white px-4 py-2 rounded cursor-not-allowed">
+          Solve
+        </button>
+      {% else %}
+        <a href="{% url 'problem_detail' problem.id %}" class="block mt-2 text-blue-400 hover:underline">
+          Solve
+        </a>
+      {% endif %}
+    </li>
+  {% empty %}
+    <p class="text-white">No problems found.</p>
+  {% endfor %}
+</ul>
+{% endblock %}

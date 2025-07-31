@@ -1,0 +1,14 @@
+<div class="bg-gray-800 rounded-lg p-4 shadow-md">
+  {% if top_users %}
+    <ul class="divide-y divide-gray-700">
+      {% for user in top_users %}
+        <li class="flex justify-between py-2">
+          <span class="text-white font-semibold">{{ forloop.counter }}. {{ user.user__username }}</span>
+          <span class="text-indigo-400 font-bold">{{ user.total_score }}</span>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p class="text-gray-400 text-sm">No submissions yet. Be the first one to enter the leaderboard!</p>
+  {% endif %}
+</div>

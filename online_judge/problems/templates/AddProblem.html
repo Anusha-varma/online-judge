@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block title %}Add New Problem{% endblock %}
+
+{% block content %}
+<form method="post" class="space-y-4">
+  {% csrf_token %}
+
+  <div>
+    <label for="id_title" class="block text-white mb-1">Title</label>
+    <input type="text" name="title" id="id_title"
+           class="w-full bg-slate-800 text-white rounded px-3 py-2 focus:outline-none focus:ring focus:border-indigo-500" />
+  </div>
+
+  <div>
+    <label for="id_description" class="block text-white mb-1">Description</label>
+    <textarea name="description" id="id_description" rows="4"
+              class="w-full bg-slate-800 text-white rounded px-3 py-2 focus:outline-none focus:ring focus:border-indigo-500"></textarea>
+  </div>
+
+  <div>
+    <label for="id_difficulty" class="block text-white mb-1">Difficulty</label>
+    <select name="difficulty" id="id_difficulty"
+            class="w-full bg-indigo-900 text-white rounded px-3 py-2 focus:outline-none focus:ring focus:border-indigo-500">
+      <option value="">Select difficulty</option>
+      <option value="Easy">Easy</option>
+      <option value="Medium">Medium</option>
+      <option value="Hard">Hard</option>
+    </select>
+  </div>
+
+  <div>
+    <label for="id_sample_input" class="block text-white mb-1">Sample Input</label>
+    <textarea name="sample_input" id="id_sample_input"
+              class="w-full bg-slate-800 text-white rounded px-3 py-2"></textarea>
+  </div>
+
+  <div>
+    <label for="id_sample_output" class="block text-white mb-1">Sample Output</label>
+    <textarea name="sample_output" id="id_sample_output"
+              class="w-full bg-slate-800 text-white rounded px-3 py-2"></textarea>
+  </div>
+
+  <div>
+    <label for="id_test_input" class="block text-white mb-1">Test Input</label>
+    <textarea name="test_input" id="id_test_input"
+              class="w-full bg-slate-800 text-white rounded px-3 py-2"></textarea>
+  </div>
+
+  <div>
+    <label for="id_expected_output" class="block text-white mb-1">Expected Output</label>
+    <textarea name="expected_output" id="id_expected_output"
+              class="w-full bg-slate-800 text-white rounded px-3 py-2"></textarea>
+  </div>
+
+  <button type="submit"
+          class="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700 transition duration-200">
+    Submit
+  </button>
+</form>
+
+{% endblock %}
+    

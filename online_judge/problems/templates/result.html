@@ -1,0 +1,13 @@
+<h1 class="text-lg font-bold mb-2 text-green-400">Execution Result</h1>
+<p><strong>Language:</strong> {{ form.cleaned_data.language }}</p>
+<p><strong>Code:</strong> <pre>{{ form.cleaned_data.code }}</pre></p>
+<p><strong>Input:</strong> <pre>{{ form.cleaned_data.input_data }}</pre></p>
+<p><strong>Your Output:</strong> <pre>{{ output }}</pre></p>
+<p><strong>Expected Output:</strong> <pre>{{ expected_output }}</pre></p>
+<p><strong>Verdict:</strong> 
+  {% if verdict == "Accepted ✅" %}
+    <span class="text-green-400 font-bold">{{ verdict }}</span>
+  {% else %}
+    <span class="text-red-400 font-bold">{{ verdict }}</span>
+  {% endif %}
+</p>

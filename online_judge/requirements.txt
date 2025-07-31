@@ -1,0 +1,11 @@
+django>=3.2
+django-widget-tweaks
+gunicorn
+psycopg2-binary
+whitenoise
+python-dotenv
+django-cors-headers
+markdown
+openai
+requests
+djangorestframework

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Code Compiler</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-black p-6 min-h-screen font-sans text-white">
+
+  <div class="max-w-2xl mx-auto bg-white/10 backdrop-blur-md p-6 rounded-xl shadow-lg border border-white/20">
+    <h1 class="text-2xl font-bold text-purple-400 mb-4">Code Compiler</h1>
+
+    <form method="post" class="space-y-4">
+      {% csrf_token %}
+      {% load widget_tweaks %}
+
+      <!-- Language Selection -->
+      <div>
+        <label for="id_language" class="block text-sm font-semibold mb-1">Language</label>
+        {{ form.language|add_class:"w-full p-2 bg-black/50 text-white border border-gray-500 rounded-md focus:ring focus:ring-purple-500"|attr:"id:id_language" }}
+      </div>
+
+      <!-- Code Editor -->
+      <div>
+        <label for="id_code" class="block text-sm font-semibold mb-1">Code</label>
+        {{ form.code|add_class:"w-full p-2 h-48 bg-black/50 text-white border border-gray-500 rounded-md font-mono focus:ring focus:ring-purple-500"|attr:"id:id_code" }}
+      </div>
+
+      <!-- Test Cases / Input -->
+      <div>
+        <label for="id_input_data" class="block text-sm font-semibold mb-1">Test Input</label>
+        {{ form.input_data|add_class:"w-full p-2 h-24 bg-black/50 text-white border border-gray-500 rounded-md font-mono focus:ring focus:ring-purple-500" }}
+      </div>
+
+      <!-- Submit Button -->
+      <div>
+        <button type="submit" class="w-full py-2 px-4 bg-green-600 text-white font-bold rounded-lg hover:bg-green-700 transition">
+          Run Code
+        </button>
+      </div>
+    </form>
+
+    {% if output %}
+      <div class="mt-6 bg-white/10 border border-white/20 p-4 rounded-lg">
+        <h2 class="text-lg font-semibold text-green-400 mb-2">Execution Result:</h2>
+        <pre class="text-sm text-white bg-black/40 p-3 rounded-md">{{ output }}</pre>
+      </div>
+    {% endif %}
+  </div>
+<script>
+  const languageSelector = document.getElementById('id_language');
+  const codeEditor = document.getElementById('id_code');
+
+  const templates = {
+    'py': `# Write your Python code here\nprint("Hello, World!")`,
+    'c': `#include <stdio.h>\nint main() {\n    // Your code here\n    return 0;\n}`,
+    'cpp': `#include <iostream>\nusing namespace std;\nint main() {\n    // Your code here\n    return 0;\n}`
+  };
+
+  languageSelector.addEventListener('change', function() {
+    const selectedLang = this.value;
+    codeEditor.value = templates[selectedLang] || '';
+  });
+
+  // Optionally trigger default template on page load
+  window.addEventListener('DOMContentLoaded', () => {
+    const selectedLang = languageSelector.value;
+    if (!codeEditor.value.trim()) {
+      codeEditor.value = templates[selectedLang] || '';
+    }
+  });
+</script>
+
+</body>
+</html>

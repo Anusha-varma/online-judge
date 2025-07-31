@@ -1,0 +1,70 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login</title>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.5.1/css/all.css">
+</head>
+<body>
+<div class="center-page">
+<div class="box group">
+  <div class="login">
+    <div class="loginBx">
+      <h2>
+        <i class="fa-solid fa-right-to-bracket"></i>
+        Login
+        <i class="fa-solid fa-heart"></i>
+      </h2>
+
+      <form method="post" action="{% url 'login' %}">
+        {% csrf_token %}
+
+        <!-- Display messages -->
+        {% if messages %}
+          {% for message in messages %}
+            <div style="color: {% if message.tags == 'error' %}#ff4d4d{% elif message.tags == 'success' %}#45f3ff{% else %}#fff{% endif %}; font-weight: 500;">
+              {{ message }}
+            </div>
+          {% endfor %}
+        {% endif %}
+
+        <input type="text" name="username" placeholder="Username" required value="{{ request.POST.username }}">
+        <input type="password" name="password" placeholder="Password" required>
+        <input type="submit" value="Sign in" />
+      </form>
+
+      <div class="group">
+        <a href="#">Forgot Password</a>
+        <a href="{% url 'home' %}?show=register">Sign up</a>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const box = document.querySelector('.box');
+    const inputs = document.querySelectorAll('.loginBx input');
+
+    if (box && inputs.length > 0) {
+      inputs.forEach(input => {
+        input.addEventListener('focus', () => {
+          box.classList.add('active');
+        });
+
+        input.addEventListener('blur', () => {
+          if (![...inputs].some(inp => inp === document.activeElement)) {
+            box.classList.remove('active');
+          }
+        });
+      });
+    }
+  });
+</script>
+
+
+
+</body>
+</html>

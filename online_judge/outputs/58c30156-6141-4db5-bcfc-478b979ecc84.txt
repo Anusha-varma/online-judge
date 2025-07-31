@@ -1,0 +1,2 @@
+Enter a positive number:  The reverse of the number is: 21723212
+ The number is not a palindrome.

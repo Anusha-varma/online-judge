@@ -1,0 +1,1 @@
+Enter array: Enter target sum: 

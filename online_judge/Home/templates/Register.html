@@ -1,0 +1,86 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Register</title>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.5.1/css/all.css">
+</head>
+<body>
+<div class="center-page">
+<div class="box group">
+  <div class="login">
+    <div class="loginBx">
+      <h2>
+        <i class="fa-solid fa-user-plus"></i>
+        Register
+        <i class="fa-solid fa-code"></i>
+      </h2>
+
+      <form method="post" action="{% url 'register' %}">
+        {% csrf_token %}
+
+        <!-- Username -->
+        <input type="text" name="username" placeholder="Username" required value="{{ form.data.username }}">
+
+        <!-- Email -->
+        <input type="email" name="email" placeholder="Email (optional)" value="{{ form.data.email }}">
+
+        <!-- Password -->
+        <input type="password" name="password1" placeholder="Password" required>
+
+        <!-- Confirm Password -->
+        <input type="password" name="password2" placeholder="Confirm Password" required>
+
+        <!-- Submit -->
+        <input type="submit" value="Register" />
+      </form>
+
+      <!-- Form Errors -->
+      {% if form.errors %}
+        <div style="color: #ff2770; margin-top: 10px;">
+          {% for field in form %}
+            {% for error in field.errors %}
+              <p>{{ field.label }}: {{ error }}</p>
+            {% endfor %}
+          {% endfor %}
+          {% for error in form.non_field_errors %}
+            <p>{{ error }}</p>
+          {% endfor %}
+        </div>
+      {% endif %}
+
+      <!-- Link to login -->
+      <div class="group">
+        <a href="{% url 'home' %}?show=login">Already have an account?</a>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const box = document.querySelector('.box');
+    const inputs = document.querySelectorAll('.loginBx input');
+
+    if (box && inputs.length > 0) {
+      inputs.forEach(input => {
+        input.addEventListener('focus', () => {
+          box.classList.add('active');
+        });
+
+        input.addEventListener('blur', () => {
+          if (![...inputs].some(inp => inp === document.activeElement)) {
+            box.classList.remove('active');
+          }
+        });
+      });
+    }
+  });
+</script>
+
+
+
+</body>
+</html>

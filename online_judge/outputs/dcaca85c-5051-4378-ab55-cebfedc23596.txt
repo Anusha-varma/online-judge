@@ -1,0 +1,2 @@
+ The reverse of the number is: 1121
+ The number is not a palindrome.
