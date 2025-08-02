@@ -70,23 +70,6 @@ def problem_details(request, id):
             submission.save()
 
             master_path = os.path.join(settings.BASE_DIR, "solutions", f"solution_{problem.id}.{submission.language}")
-            if not os.path.exists(master_path):
-                prompt = f"Write a complete program in {submission.language} to solve the following problem. It must include a main function:\n{problem.description}"
-                master_code = generate_master_code(prompt, submission.language)
-                os.makedirs(os.path.dirname(master_path), exist_ok=True)
-                if "main()" in master_code or "def " in master_code:
-                    with open(master_path, "w") as f:
-                        f.write(master_code)
-                else:
-                    return render(request, "ProblemDetail.html", {
-                        "problem": problem,
-                        "form": form,
-                        "output": "",
-                        "expected_output": "",
-                        "verdict": "❌ Failed to generate valid master solution code.",
-                        "show_result": True,
-                    })
-
             if os.path.exists(master_path):
                 expected_output = run_code(
                     submission.language,
